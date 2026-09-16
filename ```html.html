@@ -1,0 +1,1433 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#f4f6fb">
+
+<title>Мои дела</title>
+
+<style>
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --text: #172033;
+  --muted: #8791a3;
+  --border: #e2e7f0;
+  --primary: #536dfe;
+  --primary-light: #e9edff;
+  --green: #159866;
+  --green-light: #e0f7ec;
+  --yellow: #b77700;
+  --yellow-light: #fff2d8;
+  --danger: #d94d4d;
+  --danger-light: #fff0f0;
+}
+
+body.dark {
+  --bg: #11151c;
+  --card: #1d232e;
+  --text: #f4f6fb;
+  --muted: #a1abba;
+  --border: #333b49;
+  --primary: #8798ff;
+  --primary-light: #2d3767;
+  --green: #58d89d;
+  --green-light: #214c39;
+  --yellow: #ffc45c;
+  --yellow-light: #4b3a1b;
+  --danger: #ff7777;
+  --danger-light: #4b2828;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: .25s;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  max-width: 680px;
+  min-height: 100vh;
+  margin: auto;
+  padding: 22px 16px 90px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.add-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: var(--primary);
+  color: white;
+  font-size: 30px;
+  box-shadow: 0 8px 20px rgba(83, 109, 254, .28);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  padding: 15px 8px;
+  border-radius: 18px;
+  background: var(--card);
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(30, 40, 70, .06);
+}
+
+.stat-number {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.stat-label {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 12px 5px;
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.tab.active {
+  background: var(--primary);
+  color: white;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 18px 2px 12px;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  padding: 17px;
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: 0 5px 18px rgba(30, 40, 70, .06);
+}
+
+.card.done {
+  opacity: .6;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.date {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--primary);
+  border-radius: 8px;
+  background: var(--primary-light);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.badge {
+  height: fit-content;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.timer {
+  margin: 18px 0 14px;
+  color: var(--primary);
+  font-size: 35px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.timer-mode {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.action {
+  flex: 1;
+  padding: 11px 7px;
+  border-radius: 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.action.green {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.action.pause {
+  background: var(--yellow-light);
+  color: var(--yellow);
+}
+
+.action.delete {
+  flex: 0 0 42px;
+  background: var(--danger-light);
+  color: var(--danger);
+  font-size: 18px;
+}
+
+.empty {
+  padding: 40px 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.theme-box {
+  margin-top: 26px;
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--card);
+}
+
+.theme-title {
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.theme-button {
+  padding: 9px 15px;
+  margin-right: 7px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--text);
+}
+
+.theme-button.active {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Календарь */
+
+.calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.calendar-head h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--primary);
+  font-size: 24px;
+}
+
+.calendar {
+  padding: 12px;
+  border-radius: 20px;
+  background: var(--card);
+}
+
+.weekdays,
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.weekdays div {
+  padding: 7px 0;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.day {
+  min-height: 42px;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--text);
+}
+
+.day.selected {
+  background: var(--primary);
+  color: white;
+}
+
+.day.today {
+  outline: 2px solid var(--primary);
+}
+
+.day.has-task {
+  position: relative;
+  font-weight: 700;
+}
+
+.day.has-task::after {
+  position: absolute;
+  bottom: 4px;
+  left: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  content: "";
+}
+
+.day.selected::after {
+  background: white;
+}
+
+/* Окно добавления */
+
+.modal-bg {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(10, 15, 25, .5);
+}
+
+.modal-bg.show {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-width: 680px;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 23px 18px 30px;
+  border-radius: 26px 26px 0 0;
+  background: var(--card);
+}
+
+.modal h2 {
+  margin: 0 0 18px;
+}
+
+label {
+  display: block;
+  margin: 13px 0 7px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  outline: none;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+}
+
+textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.modal-button {
+  flex: 1;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+.cancel {
+  background: var(--border);
+  color: var(--muted);
+}
+
+.save {
+  background: var(--primary);
+  color: white;
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+  <header class="header">
+    <div>
+      <h1>Мои дела</h1>
+      <div class="subtitle" id="todayText"></div>
+    </div>
+
+    <button class="add-button" onclick="openModal()">+</button>
+  </header>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-number" id="totalCount">0</div>
+      <div class="stat-label">Всего дел</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-number" id="doneCount">0</div>
+      <div class="stat-label">Выполнено</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-number" id="spentTime">0м</div>
+      <div class="stat-label">Потрачено</div>
+    </div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" id="todayTab" onclick="changeView('today')">
+      Сделать сегодня
+    </button>
+
+    <button class="tab" id="laterTab" onclick="changeView('later')">
+      Отложенные
+    </button>
+
+    <button class="tab" id="calendarTab" onclick="changeView('calendar')">
+      Календарь
+    </button>
+  </nav>
+
+  <section id="content"></section>
+
+  <section class="theme-box">
+    <div class="theme-title">Тема приложения</div>
+
+    <button class="theme-button" data-theme="light" onclick="setTheme('light')">
+      Белая
+    </button>
+
+    <button class="theme-button" data-theme="dark" onclick="setTheme('dark')">
+      Чёрная
+    </button>
+  </section>
+</main>
+
+<div class="modal-bg" id="modal">
+  <form class="modal" onsubmit="createTask(event)">
+    <h2>Новое дело</h2>
+
+    <label>Название дела</label>
+    <input
+      id="taskName"
+      type="text"
+      maxlength="100"
+      placeholder="Например, изучать английский"
+      required
+    >
+
+    <label>Тип дела</label>
+    <select id="taskType" onchange="updateForm()">
+      <option value="today">Сделать сегодня</option>
+      <option value="later">Отложенное дело</option>
+      <option value="calendar">Дело в календаре</option>
+    </select>
+
+    <div id="timerModeBox">
+      <label>Тип таймера</label>
+
+      <select id="timerMode" onchange="updateForm()">
+        <option value="stopwatch">
+          Секундомер — считать время вверх
+        </option>
+
+        <option value="countdown">
+          Обратный отсчёт
+        </option>
+      </select>
+    </div>
+
+    <div id="minutesBox" style="display:none">
+      <label>Количество минут</label>
+      <input
+        id="taskMinutes"
+        type="number"
+        min="1"
+        max="1440"
+        value="25"
+      >
+    </div>
+
+    <div id="dateBox" style="display:none">
+      <label>Дата выполнения</label>
+      <input id="taskDate" type="date">
+    </div>
+
+    <div id="timeBox" style="display:none">
+      <label>Время напоминания</label>
+      <input id="taskTime" type="time">
+    </div>
+
+    <label>Заметка или уточнение</label>
+    <textarea
+      id="taskNote"
+      placeholder="Напишите детали, цель или то, что важно не забыть"
+    ></textarea>
+
+    <div class="modal-buttons">
+      <button
+        type="button"
+        class="modal-button cancel"
+        onclick="closeModal()"
+      >
+        Отмена
+      </button>
+
+      <button type="submit" class="modal-button save">
+        Добавить
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+const STORAGE_KEY = "my_tasks_timer_final";
+const THEME_KEY = "my_tasks_theme_final";
+
+let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+let currentView = "today";
+let calendarDate = new Date();
+let selectedDate = getDateString(new Date());
+
+function saveTasks() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
+
+function getDateString(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function formatDate(dateString) {
+  if (!dateString) return "";
+
+  return new Date(dateString + "T12:00:00").toLocaleDateString(
+    "ru-RU",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }
+  );
+}
+
+function formatTimer(seconds) {
+  seconds = Math.max(0, Math.floor(seconds || 0));
+
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secondsLeft = seconds % 60;
+
+  if (hours > 0) {
+    return [
+      String(hours).padStart(2, "0"),
+      String(minutes).padStart(2, "0"),
+      String(secondsLeft).padStart(2, "0")
+    ].join(":");
+  }
+
+  return [
+    String(minutes).padStart(2, "0"),
+    String(secondsLeft).padStart(2, "0")
+  ].join(":");
+}
+
+function escapeHtml(text) {
+  return String(text || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+/* Обновление таймеров */
+
+function updateTimers() {
+  let changed = false;
+
+  tasks.forEach(task => {
+    if (!task.running) return;
+
+    if (!task.timerMode) {
+      task.timerMode = "stopwatch";
+    }
+
+    if (task.timerMode === "stopwatch") {
+      task.elapsed =
+        (task.savedElapsed || 0) +
+        Math.floor((Date.now() - task.startedAt) / 1000);
+
+      changed = true;
+    }
+
+    if (task.timerMode === "countdown") {
+      task.remaining = Math.ceil(
+        (task.endAt - Date.now()) / 1000
+      );
+
+      if (task.remaining <= 0) {
+        task.remaining = 0;
+        task.running = false;
+        task.endAt = null;
+        task.completed = true;
+
+        playSound();
+        showNotification(
+          "Таймер завершён",
+          `Дело «${task.name}» завершено`
+        );
+      }
+
+      changed = true;
+    }
+  });
+
+  if (changed) {
+    saveTasks();
+  }
+}
+
+/* Проверка напоминаний */
+
+function checkReminders() {
+  const now = Date.now();
+  let changed = false;
+
+  tasks.forEach(task => {
+    if (!task.reminder || task.reminded) return;
+
+    const reminderTime = new Date(task.reminder).getTime();
+
+    if (now >= reminderTime) {
+      task.reminded = true;
+
+      playSound();
+
+      showNotification(
+        "Напоминание о деле",
+        task.name
+      );
+
+      changed = true;
+    }
+  });
+
+  if (changed) {
+    saveTasks();
+  }
+}
+
+function playSound() {
+  try {
+    const AudioContext =
+      window.AudioContext || window.webkitAudioContext;
+
+    const audio = new AudioContext();
+    const oscillator = audio.createOscillator();
+    const gain = audio.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.value = 880;
+    gain.gain.value = 0.25;
+
+    oscillator.connect(gain);
+    gain.connect(audio.destination);
+
+    oscillator.start();
+
+    setTimeout(() => {
+      oscillator.stop();
+      audio.close();
+    }, 800);
+  } catch (error) {
+    console.log("Звук недоступен");
+  }
+}
+
+function showNotification(title, body) {
+  if (
+    "Notification" in window &&
+    Notification.permission === "granted"
+  ) {
+    new Notification(title, {
+      body: body
+    });
+  }
+}
+
+/* Отрисовка */
+
+function render() {
+  updateTimers();
+  checkReminders();
+  renderStats();
+
+  if (currentView === "calendar") {
+    renderCalendar();
+  } else {
+    renderTasks();
+  }
+}
+
+function renderStats() {
+  document.getElementById("totalCount").textContent = tasks.length;
+
+  document.getElementById("doneCount").textContent =
+    tasks.filter(task => task.completed).length;
+
+  let totalSeconds = 0;
+
+  tasks.forEach(task => {
+    if (task.timerMode === "stopwatch") {
+      if (task.running) {
+        totalSeconds +=
+          (task.savedElapsed || 0) +
+          Math.floor((Date.now() - task.startedAt) / 1000);
+      } else {
+        totalSeconds += task.savedElapsed || 0;
+      }
+    }
+
+    if (task.timerMode === "countdown") {
+      totalSeconds += task.spentSeconds || 0;
+    }
+  });
+
+  document.getElementById("spentTime").textContent =
+    totalSeconds >= 3600
+      ? `${Math.floor(totalSeconds / 3600)}ч`
+      : `${Math.floor(totalSeconds / 60)}м`;
+}
+
+function renderTasks() {
+  const content = document.getElementById("content");
+  const type = currentView === "later" ? "later" : "today";
+
+  const list = tasks.filter(task => {
+    return task.type === type && !task.completed;
+  });
+
+  const title = type === "later"
+    ? "Отложенные дела"
+    : "Сделать сегодня";
+
+  let html = `
+    <div class="section-title">
+      <span>${title}</span>
+    </div>
+  `;
+
+  if (list.length === 0) {
+    html += `
+      <div class="empty">
+        ${
+          type === "later"
+            ? "Отложенных дел пока нет.<br>Добавьте дело на будущее."
+            : "Дел на сегодня пока нет.<br>Нажмите «+», чтобы добавить дело."
+        }
+      </div>
+    `;
+  } else {
+    html += `
+      <div class="list">
+        ${list.map(renderTaskCard).join("")}
+      </div>
+    `;
+  }
+
+  content.innerHTML = html;
+}
+
+function renderTaskCard(task) {
+  const hasTimer =
+    task.type === "today" ||
+    task.type === "later";
+
+  let timerHtml = "";
+
+  if (hasTimer) {
+    let seconds = 0;
+
+    if (task.timerMode === "stopwatch") {
+      seconds = task.running
+        ? (task.savedElapsed || 0) +
+          Math.floor((Date.now() - task.startedAt) / 1000)
+        : task.savedElapsed || 0;
+    }
+
+    if (task.timerMode === "countdown") {
+      seconds = task.remaining || 0;
+    }
+
+    timerHtml = `
+      <div class="timer">${formatTimer(seconds)}</div>
+
+      <div class="timer-mode">
+        ${
+          task.timerMode === "stopwatch"
+            ? "Секундомер"
+            : "Обратный отсчёт"
+        }
+      </div>
+
+      <div class="actions">
+        ${
+          task.running
+            ? `
+              <button
+                class="action pause"
+                onclick="pauseTask('${task.id}')">
+                Пауза
+              </button>
+            `
+            : `
+              <button
+                class="action"
+                onclick="startTask('${task.id}')">
+                Старт
+              </button>
+            `
+        }
+
+        <button
+          class="action green"
+          onclick="completeTask('${task.id}')">
+          Готово
+        </button>
+
+        <button
+          class="action delete"
+          onclick="deleteTask('${task.id}')">
+          ×
+        </button>
+      </div>
+    `;
+  } else {
+    timerHtml = `
+      <div class="actions">
+        <button
+          class="action green"
+          onclick="completeTask('${task.id}')">
+          Выполнить
+        </button>
+
+        <button
+          class="action delete"
+          onclick="deleteTask('${task.id}')">
+          ×
+        </button>
+      </div>
+    `;
+  }
+
+  const reminderText = task.reminder
+    ? " · напоминание установлено"
+    : "";
+
+  return `
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <div class="name">${escapeHtml(task.name)}</div>
+
+          <div class="date">
+            ${task.date ? formatDate(task.date) : ""}
+            ${reminderText}
+          </div>
+        </div>
+
+        <div class="badge">
+          ${
+            task.type === "later"
+              ? "Отложено"
+              : task.type === "today"
+                ? "Сегодня"
+                : "Календарь"
+          }
+        </div>
+      </div>
+
+      ${
+        task.note
+          ? `<div class="note">📝 ${escapeHtml(task.note)}</div>`
+          : ""
+      }
+
+      ${timerHtml}
+    </article>
+  `;
+}
+
+/* Календарь */
+
+function renderCalendar() {
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+
+  const monthTitle = calendarDate.toLocaleDateString(
+    "ru-RU",
+    {
+      month: "long",
+      year: "numeric"
+    }
+  );
+
+  let startDay = new Date(year, month, 1).getDay();
+  startDay = startDay === 0 ? 6 : startDay - 1;
+
+  const daysInMonth = new Date(
+    year,
+    month + 1,
+    0
+  ).getDate();
+
+  let daysHtml = "";
+
+  for (let i = 0; i < startDay; i++) {
+    daysHtml += `<button class="day"></button>`;
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = getDateString(
+      new Date(year, month, day)
+    );
+
+    const hasTask = tasks.some(
+      task => task.date === date
+    );
+
+    const isToday =
+      date === getDateString(new Date());
+
+    const isSelected =
+      date === selectedDate;
+
+    daysHtml += `
+      <button
+        class="
+          day
+          ${hasTask ? "has-task" : ""}
+          ${isToday ? "today" : ""}
+          ${isSelected ? "selected" : ""}
+        "
+        onclick="selectDate('${date}')">
+        ${day}
+      </button>
+    `;
+  }
+
+  const selectedTasks = tasks.filter(
+    task => task.date === selectedDate
+  );
+
+  document.getElementById("content").innerHTML = `
+    <div class="calendar-head">
+      <button class="arrow" onclick="changeMonth(-1)">‹</button>
+      <h2>${monthTitle}</h2>
+      <button class="arrow" onclick="changeMonth(1)">›</button>
+    </div>
+
+    <div class="calendar">
+      <div class="weekdays">
+        <div>ПН</div>
+        <div>ВТ</div>
+        <div>СР</div>
+        <div>ЧТ</div>
+        <div>ПТ</div>
+        <div>СБ</div>
+        <div>ВС</div>
+      </div>
+
+      <div class="days">
+        ${daysHtml}
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span>
+        ${formatDate(selectedDate)}
+      </span>
+
+      <button
+        class="action"
+        style="flex:0 0 auto"
+        onclick="openModal('calendar')">
+        + Добавить
+      </button>
+    </div>
+
+    ${
+      selectedTasks.length
+        ? `
+          <div class="list">
+            ${selectedTasks.map(renderTaskCard).join("")}
+          </div>
+        `
+        : `
+          <div class="empty">
+            На эту дату дел пока нет.
+          </div>
+        `
+    }
+  `;
+}
+
+function selectDate(date) {
+  selectedDate = date;
+  renderCalendar();
+}
+
+function changeMonth(direction) {
+  calendarDate.setMonth(
+    calendarDate.getMonth() + direction
+  );
+
+  renderCalendar();
+}
+
+/* Переключение разделов */
+
+function changeView(view) {
+  currentView = view;
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  if (view === "today") {
+    document.getElementById("todayTab").classList.add("active");
+  }
+
+  if (view === "later") {
+    document.getElementById("laterTab").classList.add("active");
+  }
+
+  if (view === "calendar") {
+    document.getElementById("calendarTab").classList.add("active");
+  }
+
+  render();
+}
+
+/* Добавление дела */
+
+function openModal(type = "today") {
+  document.getElementById("modal").classList.add("show");
+  document.getElementById("taskType").value = type;
+
+  if (type === "later") {
+    const futureDate = new Date();
+    futureDate.setDate(
+      futureDate.getDate() + 2
+    );
+
+    document.getElementById("taskDate").value =
+      getDateString(futureDate);
+  }
+
+  if (type === "calendar") {
+    document.getElementById("taskDate").value =
+      selectedDate;
+  }
+
+  updateForm();
+
+  document.getElementById("taskName").focus();
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("show");
+
+  document.getElementById("taskName").value = "";
+  document.getElementById("taskNote").value = "";
+  document.getElementById("taskTime").value = "";
+}
+
+function updateForm() {
+  const type =
+    document.getElementById("taskType").value;
+
+  const timerMode =
+    document.getElementById("timerMode").value;
+
+  const timerAvailable =
+    type === "today" ||
+    type === "later";
+
+  document.getElementById("timerModeBox").style.display =
+    timerAvailable ? "block" : "none";
+
+  document.getElementById("minutesBox").style.display =
+    timerAvailable && timerMode === "countdown"
+      ? "block"
+      : "none";
+
+  document.getElementById("dateBox").style.display =
+    type === "today" ? "none" : "block";
+
+  document.getElementById("timeBox").style.display =
+    type === "today" ? "none" : "block";
+}
+
+function createTask(event) {
+  event.preventDefault();
+
+  const name =
+    document.getElementById("taskName").value.trim();
+
+  const type =
+    document.getElementById("taskType").value;
+
+  const note =
+    document.getElementById("taskNote").value.trim();
+
+  const timerMode =
+    document.getElementById("timerMode").value;
+
+  const minutes =
+    Number(document.getElementById("taskMinutes").value);
+
+  const date =
+    document.getElementById("taskDate").value;
+
+  const time =
+    document.getElementById("taskTime").value;
+
+  if (!name) return;
+
+  let reminder = null;
+
+  if (
+    (type === "later" || type === "calendar") &&
+    date &&
+    time
+  ) {
+    reminder = `${date}T${time}:00`;
+  }
+
+  const timerEnabled =
+    type === "today" ||
+    type === "later";
+
+  const task = {
+    id: Date.now().toString(),
+    name,
+    type,
+    note,
+    date: type === "today"
+      ? getDateString(new Date())
+      : date,
+
+    reminder,
+    reminded: false,
+    completed: false,
+    createdAt: new Date().toISOString(),
+
+    timerMode: timerEnabled
+      ? timerMode
+      : null,
+
+    running: false,
+    startedAt: null,
+    endAt: null,
+
+    savedElapsed: 0,
+    elapsed: 0,
+    spentSeconds: 0,
+
+    remaining:
+      timerEnabled && timerMode === "countdown"
+        ? minutes * 60
+        : 0
+  };
+
+  tasks.push(task);
+  saveTasks();
+
+  if (
+    "Notification" in window &&
+    Notification.permission === "default"
+  ) {
+    Notification.requestPermission();
+  }
+
+  closeModal();
+
+  if (type === "calendar") {
+    selectedDate = date;
+    currentView = "calendar";
+  } else {
+    currentView = type;
+  }
+
+  updateTabs();
+  render();
+}
+
+/* Работа таймера */
+
+function startTask(id) {
+  const task = tasks.find(
+    item => item.id === id
+  );
+
+  if (!task || task.completed) return;
+
+  // Для старых дел, созданных до появления таймера,
+  // автоматически используется секундомер.
+  if (!task.timerMode) {
+    task.timerMode = "stopwatch";
+  }
+
+  // Одновременно работает только один таймер.
+  tasks.forEach(item => {
+    if (item.id !== id && item.running) {
+      pauseTask(item.id);
+    }
+  });
+
+  task.running = true;
+
+  if (task.timerMode === "stopwatch") {
+    task.startedAt = Date.now();
+  }
+
+  if (task.timerMode === "countdown") {
+    if (!task.remaining || task.remaining <= 0) {
+      alert("У этого таймера закончилось время.");
+      return;
+    }
+
+    task.endAt =
+      Date.now() + task.remaining * 1000;
+  }
+
+  saveTasks();
+  render();
+}
+
+function pauseTask(id) {
+  const task = tasks.find(
+    item => item.id === id
+  );
+
+  if (!task || !task.running) return;
+
+  if (!task.timerMode) {
+    task.timerMode = "stopwatch";
+  }
+
+  if (task.timerMode === "stopwatch") {
+    task.savedElapsed =
+      (task.savedElapsed || 0) +
+      Math.floor(
+        (Date.now() - task.startedAt) / 1000
+      );
+
+    task.elapsed = task.savedElapsed;
+  }
+
+  if (task.timerMode === "countdown") {
+    task.remaining = Math.max(
+      0,
+      Math.ceil(
+        (task.endAt - Date.now()) / 1000
+      )
+    );
+
+    task.spentSeconds =
+      (task.spentSeconds || 0) +
+      Math.max(
+        0,
+        task.plannedSeconds - task.remaining
+      );
+  }
+
+  task.running = false;
+  task.startedAt = null;
+  task.endAt = null;
+
+  saveTasks();
+  render();
+}
+
+function completeTask(id) {
+  const task = tasks.find(
+    item => item.id === id
+  );
+
+  if (!task) return;
+
+  if (task.running) {
+    pauseTask(id);
+  }
+
+  task.completed = true;
+  saveTasks();
+  render();
+}
+
+function deleteTask(id) {
+  const task = tasks.find(
+    item => item.id === id
+  );
+
+  if (!task) return;
+
+  if (confirm(`Удалить дело «${task.name}»?`)) {
+    tasks = tasks.filter(
+      item => item.id !== id
+    );
+
+    saveTasks();
+    render();
+  }
+}
+
+/* Темы */
+
+function setTheme(theme) {
+  document.body.className =
+    theme === "dark" ? "dark" : "";
+
+  localStorage.setItem(THEME_KEY, theme);
+
+  document.querySelectorAll(".theme-button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.theme === theme
+    );
+  });
+}
+
+/* Инициализация */
+
+document.getElementById("todayText").textContent =
+  new Date().toLocaleDateString(
+    "ru-RU",
+    {
+      weekday: "long",
+      day: "numeric",
+      month: "long"
+    }
+  );
+
+setTheme(
+  localStorage.getItem(THEME_KEY) || "light"
+);
+
+setInterval(render, 1000);
+
+render();
+</script>
+</body>
+</html>
